@@ -14,10 +14,26 @@ namespace REST.API.Client.Request
     /// </summary>
     public partial class Request
     {
+        private string url;
         /// <summary>
         /// URL
         /// </summary>
-        public readonly string URL;
+        /// <exception cref="InvalidURLException">If URL is has invalid format</exception>
+        public string URL { 
+            get{
+                return url;
+            }
+            set{
+                if (value.IsURL())
+                {
+                    url = value;
+                }
+                else
+                {
+                    throw new InvalidURLException("URL is invalid");
+                }
+            } 
+        }
         /// <summary>
         /// Request Headers
         /// </summary>
@@ -27,17 +43,10 @@ namespace REST.API.Client.Request
         /// </summary>
         /// <param name="url"></param>
         /// <param name="headers"></param>
-        /// <exception cref="InvalidURLException"></exception>
+        /// <exception cref="InvalidURLException">If URL has invalid format</exception>
         public Request(string url, Dictionary<string, string> headers)
         {
-            if (url.IsURL())
-            {
-                this.URL = url;
-            }
-            else
-            {
-                throw new InvalidURLException("URL is invalid");
-            }
+            this.URL = url;
             this.Headers = headers;
         }
         /// <summary>
@@ -65,6 +74,38 @@ namespace REST.API.Client.Request
             client.AddJsonHeader();
             var response = await client.GetAsync(URL);
             return response;
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(Dictionary<string, string> queryParam)
+        {
+            HttpClient client = new HttpClient();
+            client.AddHeaders(Headers);
+            client.AddJsonHeader();
+            string query;
+            using (var content = new FormUrlEncodedContent(queryParam)){
+                query = await content.ReadAsStringAsync();
+            }
+            var newURL = "";
+            if (URL.EndsWith("/") || URL.EndsWith("\\"))
+            {
+                newURL = URL.Substring(0, URL.Length - 1);
+            }
+            else
+            {
+                newURL = URL;
+            }
+            string queryURL = $"{newURL}?{query}";
+            var response = await client.GetAsync(queryURL);
+            return response;
+        }
+
+        /// <summary>
+        /// Set URL
+        /// </summary>
+        /// <param name="url"></param>
+        public void SetURL(string url)
+        {
+            this.URL = url;
         }
     }
 }

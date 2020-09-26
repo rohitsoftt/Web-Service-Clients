@@ -15,11 +15,7 @@ namespace REST.API.UnitTests
             dictionary.Add("secretkey", "token");
             Request request = new Request("http://example.com/unitTest", dictionary);
 
-            var result = request.PostAsync(new Data
-            {
-                Subject = "Unit Test",
-                HtmlBody = "<b> Welcome Unit Test</b>"
-            }).Result;
+            var result = request.GetAsync(dictionary).Result;
             Console.WriteLine(result.StatusCode);
         }
     }

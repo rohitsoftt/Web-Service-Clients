@@ -60,5 +60,16 @@ namespace REST.API.Client
                 Formatting = Formatting.Indented
             };
         }
+        /// <summary>
+        /// ResponseBodyObject by Deserializing response body
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="responseMessage"></param>
+        /// <returns></returns>
+        public static async Task<T> ResponseBodyObjectAsync<T>(this HttpResponseMessage responseMessage)
+        {
+            string dataString = await responseMessage.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(dataString);
+        }
     }
 }

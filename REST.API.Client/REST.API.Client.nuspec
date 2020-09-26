@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>REST.API.Client</id>
+    <version>1.0.2</version>
+    <title>REST.API.Client</title>
+    <authors>Rohit Jadhav</authors>								
+    <owners>Rohit A Jadhav</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/rohitsoftt/Web-Service-Clients.git</projectUrl>
+    <description>Rest API client to connect REST APIs</description>
+    <releaseNotes>First beta version</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>REST.API.Client RAJ.REST</tags>
+  </metadata>
+</package>

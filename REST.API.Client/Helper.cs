@@ -32,7 +32,7 @@ namespace REST.API.Client
         public static bool IsURL(this string url)
         {
             bool result = false;
-            if(url.Contains("http://") || url.Contains("https://"))
+            if((url.StartsWith("http://") || url.StartsWith("https://")) && (url.Contains(".")))
             {
                 result = true;
             }
